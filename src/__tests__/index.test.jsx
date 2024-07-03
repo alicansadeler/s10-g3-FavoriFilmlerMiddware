@@ -153,3 +153,15 @@ test("Tüm filmler Favori listesine eklenince Eklenecek film bulunamadı mesajı
     screen.queryByText("Eklenecek yeni film bulunamadı...")
   ).toBeInTheDocument();
 });
+
+test("Favori listesinden çıkan film, film listesine tekrar ekleniyor", async () => {
+  const user = userEvent.setup();
+  await user.click(screen.getByText("Listem"));
+  for (let i = 0; i < 20; i++) {
+    await user.click(screen.getAllByText("Çıkar")[i]);
+  }
+  await user.click(screen.getByText("Filmler"));
+  expect(
+    screen.queryByText("Eklenecek yeni film bulunamadı...")
+  ).not.toBeInTheDocument();
+});
